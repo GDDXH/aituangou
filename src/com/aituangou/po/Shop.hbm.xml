@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+    <class name="com.aituangou.po.Shop" table="shop" catalog="aituangou">
+        <id name="shopid" type="int">
+            <column name="shopid"/>
+            <generator class="increment"/>
+        </id>
+        
+        <property name="name" type="java.lang.String">
+            <column name="shopname" length="8"/>
+        </property>
+        <!-- 
+        <one-to-one name="seller" class="com.aituangou.po.Seller" cascade="all" property-ref="shop"/>
+        <set name="goods" inverse="true" cascade="all" lazy="false">
+            <key column="shopid"/>
+            <one-to-many class="com.aituangou.po.Goods"/>
+        </set>
+        <set name="goodsCheck" inverse="true" cascade="all" lazy="false">
+            <key column="shopid"/>
+            <one-to-many class="com.aituangou.po.GoodCheck"/>
+        </set>
+         -->
+        <set name="sellers" inverse="true">
+            <key>
+                <column name="shopid" not-null="true" />
+            </key>
+            <one-to-many class="com.aituangou.po.Seller" />
+        </set>
+        <set name="goods" inverse="true">
+            <key>
+                <column name="shopid" not-null="true">
+                    <comment>所属店铺</comment>
+                </column>
+            </key>
+            <one-to-many class="com.aituangou.po.Goods" />
+        </set>
+        <set name="goodsCheck" inverse="true">
+            <key>
+                <column name="shopid" not-null="true">
+                    <comment>商店号</comment>
+                </column>
+            </key>
+            <one-to-many class="com.aituangou.po.GoodCheck" />
+        </set>
+    </class>
+</hibernate-mapping>

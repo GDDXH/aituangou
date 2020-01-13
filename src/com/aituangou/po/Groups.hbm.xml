@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 2018-12-11 8:25:42 by Hibernate Tools 3.5.0.Final -->
+<hibernate-mapping>
+    <class name="com.aituangou.po.Groups" table="GROUPS">
+        <id name="groupId" type="int">
+            <column name="GROUPID" />
+            <generator class="increment" />
+        </id>
+        <property name="bid1" type="java.lang.String">
+            <column name="BID1" />
+        </property>
+        <property name="bid2" type="java.lang.String">
+            <column name="BID2" />
+        </property>
+        <property name="goodId" type="int">
+            <column name="GOODID" />
+        </property>
+        <property name="oid1" type="int">
+            <column name="OID1" />
+        </property>
+    </class>
+</hibernate-mapping>

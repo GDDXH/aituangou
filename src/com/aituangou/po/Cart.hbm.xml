@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+    <class name="com.aituangou.po.Cart" table="cart" catalog="aituangou">
+    	<id name="cid" type="int">
+            <column name="cid"/>
+            <generator class="increment"/>
+        </id>
+        <component name="id" class="com.aituangou.po.CartId">
+            <many-to-one name="buyer" class="com.aituangou.po.Buyer">
+                <column name="bid" length="8" />
+            </many-to-one>
+            <many-to-one name="goods" class="com.aituangou.po.Goods">
+                <column name="gid" />
+            </many-to-one>
+        </component>
+        <property name="price" type="double">
+            <column name="cprice"/>
+        </property>
+        <property name="num" type="int">
+            <column name="cnum"/>
+        </property>
+        <property name="sumPrice" type="double">
+            <column name="csumprice"/>
+        </property>
+    </class>
+</hibernate-mapping>

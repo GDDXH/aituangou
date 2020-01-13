@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+    <class name="com.aituangou.po.Admin" table="admin" catalog="aituangou">
+		<id name="aid" type="java.lang.String">
+            <column name="aid" length="8" />
+            <generator class="assigned" />
+        </id>
+        <property name="apasw" type="java.lang.String">
+            <column name="apasw" length="8" not-null="true">
+                <comment>密码</comment>
+            </column>
+        </property>
+        <property name="aname" type="java.lang.String">
+            <column name="aname" length="8" not-null="true">
+                <comment>姓名</comment>
+            </column>
+        </property>
+        <property name="atype" type="java.lang.Integer">
+            <column name="atype" not-null="true">
+                <comment>类型 1位高级管理员</comment>
+            </column>
+        </property>
+    </class>
+</hibernate-mapping>

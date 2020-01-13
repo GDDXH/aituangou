@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+    <class name="com.aituangou.po.Goods" table="goods" catalog="aituangou">
+        <id name="id" type="int">
+            <column name="gid"/>
+        </id>
+        <property name="name" type="java.lang.String">
+            <column name="gname" length="20"/>
+        </property>
+        <property name="type" type="java.lang.String">
+            <column name="gtype" length="12"/>
+        </property>
+        <property name="price" type="java.lang.Double">
+            <column name="gprice"/>
+        </property>
+        <property name="num" type="int">
+            <column name="gnum"/>
+        </property>
+        <property name="sales" type="int">
+            <column name="gsales"/>
+        </property>
+        <property name="city" type="java.lang.String">
+            <column name="gcity" length="8"/>
+        </property>
+        <property name="picture" type="java.lang.String">
+            <column name="gpic"/>
+        </property>
+        <property name="score" type="java.lang.Double">
+            <column name="gscore"/>
+        </property>
+        <property name="state" type="int">
+            <column name="gstate"/>
+        </property>
+        <many-to-one name="shop" class="com.aituangou.po.Shop" fetch="select" not-null="true">
+            <column name="shopid"/>
+        </many-to-one>
+                <set name="comments" inverse="true" cascade="delete">
+            <key>
+                <column name="gid" not-null="true">
+                    <comment>商品id</comment>
+                </column>
+            </key>
+            <one-to-many class="com.aituangou.po.Comment" />
+        </set>
+        <set name="orders" inverse="true" cascade="delete">
+            <key>
+                <column name="gid" not-null="true">
+                    <comment>商品id</comment>
+                </column>
+            </key>
+            <one-to-many class="com.aituangou.po.OrderList" />
+        </set>
+        <set name="carts" inverse="true" cascade="delete">
+            <key>
+                <column name="gid" not-null="true">
+                    <comment>商品id</comment>
+                </column>
+            </key>
+            <one-to-many class="com.aituangou.po.Cart" />
+        </set>
+    </class>
+</hibernate-mapping>

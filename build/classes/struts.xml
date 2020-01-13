@@ -1,0 +1,292 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE struts PUBLIC
+        "-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+        "http://struts.apache.org/dtds/struts-2.3.dtd">
+<struts>
+    <package name="strutsBean" extends="struts-default" namespace="/">
+        <!-- 商家部分 -->
+        <action name="update" class="infoAction" method="update">
+            <result name="success" type="redirect">/person/information.jsp</result>
+            <result name="fail" type="redirect">/person/information.jsp</result>
+            <result name="no" type="redirect">/person/information.jsp</result>
+        </action>
+        
+        <action name="sellerLogin" class="sellerLoginAction" method="sellerLogin">
+            <result name="success" type="redirect">/seller/dashboard.jsp</result>
+            <result name="fail" type="redirect">/seller/login.jsp</result>
+            <result name="input" type="redirect">/seller/login.jsp</result>
+        </action>
+        
+        <action name="sellerRegister" class="registerAction" method="sellerRegister">
+            <result name="success" type="redirect">/seller/dashboard.jsp</result>
+            <result name="fail" type="redirect">/seller/register.jsp</result>
+            <result name="input" type="redirect">/seller/register.jsp</result>
+        </action>
+        
+        <action name="registerGood" class="registerGoodAction" method="registerGood">
+            <result name="success">/seller/registerGood.jsp</result>
+            <result name="fail">/seller/registerGood.jsp</result>
+            <result name="input">/seller/registerGood.jsp</result>
+        </action>
+        
+        <action name="goodCheck" class="registerGoodAction" method="goodCheck">
+            <result name="success">/seller/goodCheck.jsp</result>
+        </action>
+        
+        <action name="deleteGoodCheck" class="registerGoodAction" method="deleteGoodCheck">
+            <result name="success">/seller/goodCheck.jsp</result>
+        </action>
+        
+        <action name="allGoodInfo" class="goodInfoAction" method="allGoodInfo">
+            <result name="success">/seller/goodInfo.jsp</result>
+        </action>
+        
+        <action name="getGoodInfo" class="goodInfoAction" method="getGoodInformation">
+            <result name="change">/seller/changeGoodInfo.jsp</result>
+            <result name="detail">/seller/detailGoodInfo.jsp</result>
+            <result name="fail">/seller/goodInfo.jsp</result>
+        </action>
+        
+        <action name="changeGoodInfo" class="goodInfoAction" method="changeGoodInfo">
+            <result name="success">/seller/changeGoodInfo.jsp</result>
+            <result name="fail">/seller/changeGoodInfo.jsp</result>
+        </action>
+        
+        <action name="changeGoodPic" class="goodInfoAction" method="changeGoodPic">
+            <result name="success">/seller/changeGoodInfo.jsp</result>
+            <result name="fail">/seller/changeGoodInfo.jsp</result>
+        </action>
+        
+        <action name="allOrderInfo" class="orderAction" method="getAllOrderInfo">
+            <result name="success">/seller/allOrderList.jsp</result>
+        </action>
+        
+        <action name="shipDetail" class="orderAction" method="shipDetail">
+            <result name="success">/seller/shipDetail.jsp</result>
+        </action>
+        
+        <action name="ship" class="orderAction" method="ship">
+            <result name="success">/seller/shipDetail.jsp</result>
+            <result name="fail">/seller/shipDetail.jsp</result>
+        </action>
+        
+        <action name="changeInfo" class="changeInfoAction" method="changeInfo">
+            <result name="success">/seller/person.jsp</result>
+            <result name="fail">/seller/person.jsp</result>
+            <result name="input">/seller/person.jsp</result>
+        </action>
+        
+        <action name="changePass" class="changeInfoAction" method="changePass">
+            <result name="success">/seller/changePass.jsp</result>
+            <result name="fail">/seller/changePass.jsp</result>
+            <result name="input">/seller/changePass.jsp</result>
+        </action>
+        
+        
+        
+        
+        
+        
+        
+        
+        <!-- 管理员部分 -->
+        
+        <action name="adminLogin" class="adminLoginAction" method="login">
+			<result name="success">/loginSuccess.jsp</result>
+			<result name="fail">/login.jsp</result>
+			<result name="input">/login.jsp</result>
+		</action>
+		
+		<action name="exit" class="adminLoginAction" method="exit">
+			<result name="exit">/login.jsp</result>
+		</action>
+		
+		<!-- 维护管理员：获取管理员、删除管理员、增加管理员 -->
+		<action name="findAdmin" class="adminAction" method="findAdmin">
+			<result name="login">/login.jsp</result>
+			<result name="success">/adminList.jsp</result>
+		</action>
+		
+		<action name="delAdmin" class="adminAction" method="delAdmin">
+			<result name="success">/adminList.jsp</result>
+		</action>
+		
+		<action name="addAdmin" class="adminAction" method="addAdmin">
+			<result name="success">/adminList.jsp</result>
+			<result name="fail">/adminList.jsp</result>
+		</action>
+		
+		<!-- 维护会员：获取会员、获取会员详细信息、删除会员、修改会员信息、添加会员 -->
+		<action name="findBuyer" class="buyerAction" method="findBuyer">
+			<result name="login">/login.jsp</result>
+			<result name="success">/buyerList.jsp</result>
+		</action>
+		
+		<action name="findBuyerDetails" class="buyerAction" method="findBuyerDetails">
+			<result name="login">/login.jsp</result>
+			<result name="success">/buyerDetails.jsp</result>
+			<result name="fail">/buyerDetails.jsp</result>
+		</action>
+		
+		<action name="delBuyer" class="buyerAction" method="delBuyer">
+			<result name="success">/buyerList.jsp</result>
+		</action>
+		
+		<action name="beforeUpdate" class="buyerAction" method="findBuyer">
+			<result name="login">/login.jsp</result>
+			<result name="success">/updateBuyer.jsp</result>
+		</action>
+		
+		<action name="updBuyer" class="buyerAction" method="updBuyer">
+			<result name="success" type="chain"><param name="actionName">findBuyer</param></result>
+			<result name="fail" type="chain"><param name="actionName">beforeUpdate</param></result>
+		</action>
+		
+		<action name="addBuyer" class="buyerAction" method="addBuyer">
+			<result name="success">/buyerList.jsp</result>
+			<result name="fail">/addBuyer.jsp</result>
+			<result name="input">/addBuyer.jsp</result>
+		</action>
+		
+		<!-- 维护商家：获取商家 -->
+		<action name="findSeller" class="sellerAction" method="findSeller">
+			<result name="login">/login.jsp</result>
+			<result name="success">/sellerList.jsp</result>
+		</action>
+		
+		<action name="findSellerDetails" class="sellerAction" method="findSellerDetails">
+			<result name="login">/login.jsp</result>
+			<result name="success">/sellerDetails.jsp</result>
+			<result name="fail">/sellerDetails.jsp</result>
+		</action>
+		
+		<action name="delSeller" class="sellerAction" method="delSeller">
+			<result name="success">/sellerList.jsp</result>
+		</action>
+
+		<action name="beforeUpdateS" class="sellerAction" method="getSellersDetails">
+			<result name="login">/login.jsp</result>
+			<result name="success">/updateSeller.jsp</result>
+			<result name="fail">/loginSuccess.jsp</result>
+		</action>
+		
+		<action name="updSeller" class="sellerAction" method="updSeller">
+			<result name="success" type="chain"><param name="actionName">findSeller</param></result>
+			<result name="fail" type="chain"><param name="actionName">beforeUpdateS</param></result>
+		</action>
+		
+		<action name="addSeller" class="sellerAction" method="addSeller">
+			<result name="success">/sellerList.jsp</result>
+			<result name="fail">/addSeller.jsp</result>
+			<result name="input">/addSeller.jsp</result>
+		</action>
+		
+		<!-- 维护店铺：获取店铺 -->
+		<action name="findGoods" class="goodsAction" method="findGoods">
+			<result name="login">/login.jsp</result>
+			<result name="success">/goodsList.jsp</result>
+		</action>
+		
+		<action name="findGoodsDetails" class="goodsAction" method="findGoodsDetails">
+			<result name="login">/login.jsp</result>
+			<result name="success">/goodsDetails.jsp</result>
+			<result name="fail">/goodsDetails.jsp</result>
+		</action>
+		
+		<action name="delGoods" class="goodsAction" method="delGoods">
+			<result name="success">/goodsList.jsp</result>
+		</action>
+		
+		<action name="beforeUpdateG" class="goodsAction" method="findGoods">
+			<result name="login">/login.jsp</result>
+			<result name="success">/updateGoods.jsp</result>
+		</action>
+		
+		<action name="updGoods" class="goodsAction" method="updGoods">
+			<result name="success" type="chain"><param name="actionName">findGoods</param></result>
+			<result name="fail" type="chain"><param name="actionName">beforeUpdateG</param></result>
+		</action>
+		
+		<action name="findGoodchecks" class="goodsAction" method="findGoodchecks">
+			<result name="login">/login.jsp</result>
+			<result name="success">/checkGoods.jsp</result>
+		</action>
+		
+		<action name="checkPass" class="goodsAction" method="checkPass">
+			<result name="success">/checkGoods.jsp</result>
+			<result name="fail">/checkGoods.jsp</result>
+		</action>
+		<action name="unCheckPass" class="goodsAction" method="unCheckPass">
+			<result name="success">/checkGoods.jsp</result>
+			<result name="fail">/checkGoods.jsp</result>
+		</action>
+
+        
+        
+    </package>
+    <package name="home" extends="struts-default" namespace="/home">
+    	<action name="buyerLogin" class="buyerLoginAction" method="login">
+            <result name="success" type="redirect">/home/home.jsp</result>
+            <result name="fail" type="redirect">/home/login.jsp</result>
+            <result name="input" type="redirect">/home/login.jsp</result>
+        </action>
+        
+        <action name="buyerExit" class="buyerLoginAction" method="exit">
+            <result name="exit" type="redirect">/home/home.jsp</result>
+        </action>
+        
+        <action name="register" class="registerAction" method="register">
+            <result name="success" type="redirect">/home/home.jsp</result>
+            <result name="fail" type="redirect">/home/register.jsp</result>
+            <result name="input" type="redirect">/home/register.jsp</result>
+        </action>
+        
+		<action name="search" class="searchAction" method="search">
+            <result name="success">/home/search.jsp</result>
+        </action>
+        
+
+        
+        <action name="introduce" class="introduceAction" method="introduce">
+            <result name="success">/home/introduction.jsp</result>
+        </action>
+
+		<action name="submitOrder" class="submitOrderAction" method="submitOrder">
+        	<result name="success" type="redirect">/home/success.jsp</result>
+        	<result name="fail" type="redirect">/home/404.html</result>
+      	</action>
+
+		<action name="buyNow" class="submitOrderAction" method="buyNow">
+        	<result name="success">/home/pay.jsp</result>
+      	</action>
+      
+      	<action name="settlement" class="submitOrderAction" method="settlement">
+        	<result name="success">/home/pay.jsp</result>
+      	</action>
+	    
+	    <action name="addGoods" class="cartAction" method="addGoods">
+			<result name="success" type="redirect">/home/shopcart.jsp</result>
+	    </action>
+	      
+		<action name="findCarts" class="cartAction" method="findCarts">
+		    <result name="success">/home/shopcart.jsp</result>
+		</action>
+		
+		<action name="updateCart" class="cartAction" method="updateCart">
+		    <result name="success">/home/shopcart.jsp</result>
+		</action>
+		
+		<action name="deleteCart" class="cartAction" method="deleteCart">
+		    <result name="success">/home/shopcart.jsp</result>
+		</action>
+		
+        <action name="addGroup" class="groupsAction" method="addGroup">
+            <result name="success">/home/pay.jsp</result>
+        </action>
+        
+        <action name="joinGroup" class="groupsAction" method="joinGroup">
+            <result name="success">/home/pay.jsp</result>
+        </action>
+    </package>
+</struts>

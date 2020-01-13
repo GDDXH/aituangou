@@ -1,0 +1,244 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+        http://www.springframework.org/schema/aop
+        http://www.springframework.org/schema/aop/spring-aop-4.0.xsd
+        http://www.springframework.org/schema/tx
+        http://www.springframework.org/schema/tx/spring-tx-4.0.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context-4.0.xsd">
+    <bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource">
+        <!--JDBC驱动程序-->
+        <property name="driverClass" value="com.mysql.jdbc.Driver"/>
+        <!-- 连接数据库的URL-->
+        <property name="jdbcUrl" value="jdbc:mysql://localhost:3306/aituangou?useSSL=false"/>
+        <!--连接的登录名-->
+        <property name="user" value="root"/>
+        <!--登录密码-->
+        <property name="password" value="123456"/>
+        <!--初始化时获取三个连接，取值应在minPoolSize与maxPoolSize之间。Default: 3 -->
+        <property name="initialPoolSize" value="3"></property>
+        <!--连接池中保留的最小连接数。Default: 3 -->
+        <property name="minPoolSize" value="3"></property>
+        <!--连接池中保留的最大连接数。Default: 15 -->
+        <property name="maxPoolSize" value="5"></property>
+        <!--当连接池中的连接耗尽的时候c3p0一次同时获取的连接数。Default: 3 -->
+        <property name="acquireIncrement" value="3"></property>
+        <!-- 控制数据源内加载的PreparedStatements数量。如果maxStatements与maxStatementsPerConnection均为0，则缓存被关闭。Default: 0 -->
+        <property name="maxStatements" value="8"></property>
+        <!-- maxStatementsPerConnection定义了连接池内单个连接所拥有的最大缓存statements数。Default: 0 -->
+        <property name="maxStatementsPerConnection" value="5"></property>
+        <!--最大空闲时间,1800秒内未使用则连接被丢弃。若为0则永不丢弃。Default: 0 -->
+        <property name="maxIdleTime" value="1800"></property>
+    </bean>
+    <bean id="sessionFactory" class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
+        <property name="dataSource" ref="dataSource" />
+        <property name="hibernateProperties">
+            <props>
+                <!--指定连接的语言-->
+                <prop key="hibernate.dialect">org.hibernate.dialect.MySQLDialect</prop>
+                <!--是否将运行期生成的SQL输出到日志以供调试-->
+                <prop key="hibernate.show_sql">true</prop>
+                <!-- 格式化sql语句 -->
+                <prop key="hibernate.format_sql">true</prop>
+                <!-- 自动更新数据库表结构 -->
+                <prop key="hibernate.hbm2ddl.auto">update</prop>
+            </props>
+        </property>
+        <property name="mappingResources">
+            <list>
+                <value>com/aituangou/po/Admin.hbm.xml</value>
+                <value>com/aituangou/po/Buyer.hbm.xml</value>
+                <value>com/aituangou/po/Cart.hbm.xml</value>
+                <value>com/aituangou/po/Comment.hbm.xml</value>
+                <value>com/aituangou/po/GGoods.hbm.xml</value>
+                <value>com/aituangou/po/Goods.hbm.xml</value>
+                <value>com/aituangou/po/OrderList.hbm.xml</value>
+                <value>com/aituangou/po/Seller.hbm.xml</value>
+                <value>com/aituangou/po/Shop.hbm.xml</value>
+                <value>com/aituangou/po/GoodCheck.hbm.xml</value>
+                <value>com/aituangou/po/Groups.hbm.xml</value>
+            </list>
+        </property>
+    </bean>
+    <bean id="transactionManager" class="org.springframework.orm.hibernate4.HibernateTransactionManager">
+        <property name="sessionFactory">
+            <ref bean="sessionFactory"/>
+        </property>
+    </bean>
+    <tx:advice id="txAdvice" transaction-manager="transactionManager">
+        <tx:attributes>
+            <tx:method name="add*" propagation="REQUIRED"/>
+            <tx:method name="update*" propagation="REQUIRED"/>
+            <tx:method name="change*" propagation="REQUIRED"/>
+            <tx:method name="*" propagation="REQUIRED"/>
+        </tx:attributes>
+    </tx:advice>
+    <aop:aspectj-autoproxy/>
+    <aop:config>
+        <aop:pointcut id="allServiceMethod" expression="execution(* com.aituangou.service.*.*(..))"/>
+        <aop:advisor pointcut-ref="allServiceMethod" advice-ref="txAdvice"/>
+    </aop:config>
+
+    <bean name="baseDAO" class="com.aituangou.dao.BaseDAO">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+    <bean name="adminDAO" class="com.aituangou.dao.AdminDAO" parent="baseDAO"/>
+    <bean name="buyerDAO" class="com.aituangou.dao.BuyerDAO" parent="baseDAO"/>
+    <bean name="cartDAO" class="com.aituangou.dao.CartDAO" parent="baseDAO"/>
+    <bean name="commentDAO" class="com.aituangou.dao.CommentDAO" parent="baseDAO"/>
+    <bean name="gGoodsDAO" class="com.aituangou.dao.GGoodsDAO" parent="baseDAO"/>
+    <bean name="goodCheckDAO" class="com.aituangou.dao.GoodCheckDAO" parent="baseDAO"/>
+    <bean name="goodsDAO" class="com.aituangou.dao.GoodsDAO" parent="baseDAO"/>
+    <bean name="orderListDAO" class="com.aituangou.dao.OrderListDAO" parent="baseDAO"/>
+    <bean name="sellerDAO" class="com.aituangou.dao.SellerDAO" parent="baseDAO"/>
+    <bean name="shopDAO" class="com.aituangou.dao.ShopDAO" parent="baseDAO"/>
+	<bean name="groupsDAO" class="com.aituangou.dao.GroupsDAO" parent="baseDAO"/>
+    
+    
+    <!-- 用户 -->
+    <bean name="cartService" class="com.aituangou.service.CartService">
+        <property name="cartDAO" ref="cartDAO"/>
+    </bean>
+	<bean name="groupsService" class="com.aituangou.service.GroupsService">
+        <property name="groupsDAO" ref="groupsDAO"/>
+    </bean>
+    <bean name="infoService" class="com.aituangou.service.InfoService">
+        <property name="baseDAO" ref="baseDAO"/>
+    </bean>
+    <bean name="introduceService" class="com.aituangou.service.IntroduceService">
+        <property name="baseDAO" ref="baseDAO"/>
+    </bean>    
+    <bean name="loginService" class="com.aituangou.service.LoginService">
+        <property name="adminDAO" ref="adminDAO" /> 
+        <property name="buyerDAO" ref="buyerDAO"/>
+    </bean>
+    <bean name="payService" class="com.aituangou.service.PayService">
+		<property name="orderListDAO" ref="orderListDAO" /> 
+    </bean> 
+    <bean name="registerService" class="com.aituangou.service.RegisterService">
+        <property name="buyerDAO" ref="buyerDAO"/>
+        <property name="sellerDAO" ref="sellerDAO"/>
+        <property name="shopDAO" ref="shopDAO"/>
+    </bean>    
+    <bean name="searchService" class="com.aituangou.service.SearchService">
+        <property name="baseDAO" ref="baseDAO"/>
+    </bean>     
+    <bean name="submitOrderService" class="com.aituangou.service.SubmitOrderService">
+       <property name="orderListDAO" ref="orderListDAO" /> 
+    </bean>   
+    <bean name="cartAction" class="com.aituangou.action.CartAction" scope="prototype">
+        <property name="cartService" ref="cartService"/>
+    </bean>
+    <bean name="groupsAction" class="com.aituangou.action.GroupsAction" scope="prototype">
+        <property name="groupsService" ref="groupsService"/>
+    </bean>
+    <bean name="infoAction" class="com.aituangou.action.InfoAction" scope="prototype">
+        <property name="infoService" ref="infoService"/>
+    </bean>
+    <bean name="introduceAction" class="com.aituangou.action.IntroduceAction" scope="prototype">
+        <property name="introduceService" ref="introduceService"/>
+		<property name="groupsService" ref="groupsService"/>
+    </bean>
+    <bean name="buyerLoginAction" class="com.aituangou.action.BuyerLoginAction" scope="prototype">
+        <property name="loginService" ref="loginService"/>
+    </bean>
+	<bean name="payAction" class="com.aituangou.action.PayAction" scope="prototype">
+        <property name="payService" ref="payService"/>
+    </bean>
+	<bean name="registerAction" class="com.aituangou.action.RegisterAction" scope="prototype">
+        <property name="registerService" ref="registerService"/>
+    </bean>
+    <bean name="searchAction" class="com.aituangou.action.SearchAction" scope="prototype">
+        <property name="searchService" ref="searchService"/>
+    </bean>
+    <bean name="submitOrderAction" class="com.aituangou.action.SubmitOrderAction" scope="prototype">
+        <property name="submitOrderService" ref="submitOrderService"/>
+    </bean>
+	
+	
+	
+	<bean name="sellerLoginService" class="com.aituangou.service.SellerLoginService">
+        <property name="sellerDAO" ref="sellerDAO"/>
+    </bean>
+    <bean name="sellerLoginAction" class="com.aituangou.action.SellerLoginAction" scope="prototype">
+        <property name="sellerLoginService" ref="sellerLoginService"/>
+    </bean>
+
+    <bean name="changeInfoService" class="com.aituangou.service.ChangeInfoService">
+        <property name="sellerDAO" ref="sellerDAO"/>
+    </bean>
+    <bean name="changeInfoAction" class="com.aituangou.action.ChangeInfoAction" scope="prototype">
+        <property name="changeInfoService" ref="changeInfoService"/>
+    </bean>
+
+    <bean name="goodInfoService" class="com.aituangou.service.GoodInfoService">
+        <property name="goodsDAO" ref="goodsDAO"/>
+        <property name="gGoodsDAO" ref="gGoodsDAO"/>
+    </bean>
+    <bean name="goodInfoAction" class="com.aituangou.action.GoodInfoAction" scope="prototype">
+        <property name="goodInfoService" ref="goodInfoService"/>
+    </bean>
+
+    <bean name="registerGoodService" class="com.aituangou.service.RegisterGoodService">
+        <property name="goodsDAO" ref="goodsDAO"/>
+        <property name="goodCheckDAO" ref="goodCheckDAO"/>
+    </bean>
+    <bean name="registerGoodAction" class="com.aituangou.action.RegisterGoodAction" scope="prototype">
+        <property name="registerGoodService" ref="registerGoodService"/>
+    </bean>
+
+    <bean name="orderService" class="com.aituangou.service.OrderService">
+        <property name="orderListDAO" ref="orderListDAO"/>
+    </bean>
+    <bean name="orderAction" class="com.aituangou.action.OrderAction" scope="prototype">
+        <property name="orderService" ref="orderService"/>
+    </bean>
+
+    
+    <!-- 管理员 -->
+    <!-- 管理员相关配置 -->
+
+	
+	<bean id="adminLoginAction" class="com.aituangou.action.AdminLoginAction" scope="prototype" > 
+		<property name="loginService" ref="loginService" /> 
+	</bean>
+	<bean id="adminService" class="com.aituangou.service.AdminService">
+		<property name="adminDAO" ref="adminDAO"/>
+	</bean>
+	<bean id="adminAction" class="com.aituangou.action.AdminAction" scope="prototype">
+		<property name="adminService" ref="adminService"/>
+	</bean>
+	
+	<!-- 会员相关配置 -->
+	<bean id="buyerService" class="com.aituangou.service.BuyerService">
+		<property name="buyerDAO" ref="buyerDAO"/>
+	</bean>
+	<bean id="buyerAction" class="com.aituangou.action.BuyerAction" scope="prototype">
+		<property name="buyerService" ref="buyerService"/>
+	</bean>
+	
+	<!-- 卖家相关配置 -->
+	<bean id="sellerService" class="com.aituangou.service.SellerService">
+		<property name="sellerDAO" ref="sellerDAO"/>
+		<property name="shopDAO" ref="shopDAO"/>
+	</bean>
+	<bean id="sellerAction" class="com.aituangou.action.SellerAction" scope="prototype">
+		<property name="sellerService" ref="sellerService"/>
+	</bean>
+	
+	<!-- 商品相关配置 -->
+	<bean id="goodsService" class="com.aituangou.service.GoodsService">
+		<property name="goodsDAO" ref="goodsDAO"/>
+		<property name="goodCheckDAO" ref="goodCheckDAO"/>
+		<property name="gGoodsDAO" ref="gGoodsDAO"/>
+	</bean>
+	<bean id="goodsAction" class="com.aituangou.action.GoodsAction" scope="prototype">
+		<property name="goodsService" ref="goodsService"/>
+	</bean>
+</beans>

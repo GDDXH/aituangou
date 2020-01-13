@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+    <class name="com.aituangou.po.Buyer" table="buyer" catalog="aituangou">
+        <id name="id" type="java.lang.String">
+            <column name="bid" length="8"/>
+        </id>
+        <property name="password" type="java.lang.String">
+            <column name="bpasw" length="8"/>
+        </property>
+        <property name="name" type="java.lang.String">
+            <column name="bname" length="8"/>
+        </property>
+        <property name="telephone" type="java.lang.String">
+            <column name="btel" length="12"/>
+        </property>
+        <property name="address" type="java.lang.String">
+            <column name="badd" length="50"/>
+        </property>
+        <set name="carts" inverse="true" cascade="delete" lazy="true" >
+            <key>
+                <column name="bid" length="8" not-null="true">
+                    <comment>会员账号</comment>
+                </column>
+            </key>
+            <one-to-many class="com.aituangou.po.Cart" />
+        </set>
+    </class>
+</hibernate-mapping>

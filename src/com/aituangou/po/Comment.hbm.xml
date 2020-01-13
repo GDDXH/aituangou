@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+    <class name="com.aituangou.po.Comment" table="comment" catalog="aituangou">
+        <id name="oid" type="int">
+            <column name="oid"/>
+        </id>
+        <property name="gid" type="int">
+            <column name="gid"/>
+        </property>
+        <property name="score" type="double">
+            <column name="score"/>
+        </property>
+        <property name="comment" type="java.lang.String">
+            <column name="comment"/>
+        </property>
+    </class>
+</hibernate-mapping>
